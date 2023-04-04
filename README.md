@@ -1,3 +1,3 @@
 # art-shop
 
-Art shop app
+Art shop application
