@@ -1,4 +1,4 @@
-package pl.asia.artshop.loginScreen
+package pl.asia.artshop.login
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class ProductViewModelLogin : ViewModel() {
+class LoginViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(
-        ProductViewStateLogin(
+        LoginViewState(
             login = "Login",
             password = "Password",
             loginButton = "Log in"
@@ -18,7 +18,7 @@ class ProductViewModelLogin : ViewModel() {
 
 
 
-    val uiState: StateFlow<ProductViewStateLogin> = _uiState.asStateFlow()
+    val uiState: StateFlow<LoginViewState> = _uiState.asStateFlow()
 
     fun updateProduct() {
         _uiState.update { currentState ->

@@ -1,4 +1,4 @@
-package pl.asia.artshop.product.donica2
+package pl.asia.artshop.product
 
 data class ProductViewState(
     val name: String,

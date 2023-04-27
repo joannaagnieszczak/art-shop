@@ -1,6 +1,6 @@
-package pl.asia.artshop.loginScreen
+package pl.asia.artshop.login
 
-data class ProductViewStateLogin(
+data class LoginViewState(
     val login: String,
     val password: String,
     val loginButton: String,

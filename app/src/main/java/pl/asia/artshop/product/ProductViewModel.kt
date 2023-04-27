@@ -1,4 +1,4 @@
-package pl.asia.artshop.product.donica2
+package pl.asia.artshop.product
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel

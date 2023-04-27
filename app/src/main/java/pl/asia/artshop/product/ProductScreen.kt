@@ -1,4 +1,4 @@
-package pl.asia.artshop.product.donica2
+package pl.asia.artshop.product
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -367,7 +367,8 @@ fun SimilarItems(modifier: Modifier = Modifier){
 @Preview(showBackground = true, backgroundColor = 0xFFE7DACC)
 @Composable
 fun SimilarItemsPreview(){
-    SimilarItems(modifier = Modifier.padding(8.dp))}
+    SimilarItems(modifier = Modifier.padding(8.dp))
+}
 
 @Preview(showBackground = true, backgroundColor = 0xFFE7DACC)
 @Composable

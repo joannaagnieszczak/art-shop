@@ -1,4 +1,4 @@
-package pl.asia.artshop.loginScreen
+package pl.asia.artshop.login
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,8 +29,8 @@ import pl.asia.artshop.ui.theme.Typography
 
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier, productViewModelLogin: ProductViewModelLogin = viewModel()) {
-    val productUiState by productViewModelLogin.uiState.collectAsState()
+fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = viewModel()) {
+    val productUiState by loginViewModel.uiState.collectAsState()
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         TextField(
             value = "",
