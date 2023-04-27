@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import pl.asia.artshop.product.ImageSlider
+import pl.asia.artshop.loginScreen.LoginScreen
 import pl.asia.artshop.ui.theme.ArtshopTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ArtshopTheme {
-               ImageSlider()
+               LoginScreen()
             }
         }
     }

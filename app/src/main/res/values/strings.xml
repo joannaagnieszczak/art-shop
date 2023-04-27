@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">art-shop</string>
+    <string name="details">Details</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="shipping_returns">Shipping &amp; Returns</string>
+    <string name="description_details">Material:\nCeramics\n\nDescription\nlight beige\nUniform</string>
+    <string name="description_dimensions">Material:\nCeramics</string>
+    <string name="description_shipping">Material:\nCeramics\n\nDescription\nlight beige\nUniform</string>
 </resources>
