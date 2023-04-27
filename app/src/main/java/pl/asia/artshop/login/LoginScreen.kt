@@ -1,4 +1,5 @@
 package pl.asia.artshop.login
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,9 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,11 +34,19 @@ import pl.asia.artshop.ui.theme.Typography
 
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = viewModel()) {
-    val productUiState by loginViewModel.uiState.collectAsState()
-    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+    val loginUiState by loginViewModel.uiState.collectAsState()
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        var login by remember { mutableStateOf(loginUiState.login) }
         TextField(
-            value = "",
-            onValueChange = { },
+            value = login,
+            onValueChange = {
+                login = it
+                loginViewModel.onEnterLogin(login = it)
+            },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Person,
@@ -43,7 +55,8 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
             },
             colors = TextFieldDefaults.colors(unfocusedContainerColor = MaterialTheme.colorScheme.primary),
             placeholder = {
-                Text(productUiState.login,
+                Text(
+                    text = "Login",
                     style = Typography.titleLarge,
                     fontSize = 14.sp,
                     color = Color.Black
@@ -55,10 +68,12 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
                 .padding(16.dp)
 
         )
-
+        var password by remember { mutableStateOf(loginUiState.password) }
         TextField(
-            value = "",
-            onValueChange = { readLine() },
+            value = password,
+            onValueChange = {
+                password = it
+                loginViewModel.onEnterPassword(password = it)},
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Lock,
@@ -67,10 +82,12 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
             },
             colors = TextFieldDefaults.colors(unfocusedContainerColor = MaterialTheme.colorScheme.primary),
             placeholder = {
-                Text(productUiState.password,
+                Text(
+                    text = "Password",
                     style = Typography.titleLarge,
                     fontSize = 14.sp,
-                    color = Color.Black)
+                    color = Color.Black
+                )
             },
             modifier = modifier
                 .fillMaxWidth()
@@ -81,15 +98,15 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
 
         Button(
             onClick = {},
+            enabled = loginUiState.isLoginButtonEnabled,
             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
-            modifier = Modifier.padding(16.dp)) {
-            Text(text = productUiState.loginButton)
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "Log in")
 
-        }
         }
     }
-
-
+}
 
 
 @Preview(showBackground = true)

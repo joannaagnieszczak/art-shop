@@ -1,9 +1,7 @@
 package pl.asia.artshop.login
 
 data class LoginViewState(
-    val login: String,
-    val password: String,
-    val loginButton: String,
-    val isSecondButtonEnabled: Boolean = false
-
+    val login: String = "",
+    val password: String = "",
+    val isLoginButtonEnabled: Boolean = false
 )

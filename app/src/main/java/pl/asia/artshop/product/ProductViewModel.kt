@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import pl.asia.artshop.R
 
 class ProductViewModel : ViewModel() {
@@ -25,18 +24,13 @@ class ProductViewModel : ViewModel() {
                     "Shipping to a parcel locker\n" +
                     "We send parcels to parcel lockers via InPost. The parcel will reach you within 3-5 working days. Delivery cost up to PLN 9.99 (including VAT). To parcel lockers that send only one item that has been previously paid for by online transfer. Orders worth over PLN 200 are shipped free of charge. After the order is shipped, the number of the waybill, which allows you to add shipments.\n",
             imageList = listOf(
-            R.drawable.flower_pot1,
-            R.drawable.flower_pot2,
-            R.drawable.flower_pot3
+                R.drawable.flower_pot1,
+                R.drawable.flower_pot2,
+                R.drawable.flower_pot3
             ),
-            details = listOf(
-                R.string.details to R.string.description_details,
-                R.string.dimensions to R.string.description_dimensions,
-                R.string.shipping_returns to R.string.description_shipping).map { StringPair(it.first, it.second) }
-
 
             )
-        )
+    )
 
     data class StringPair(
         @StringRes val text: Int,
@@ -46,15 +40,8 @@ class ProductViewModel : ViewModel() {
 
     val uiState: StateFlow<ProductViewState> = _uiState.asStateFlow()
 
-    fun updateProduct() {
-        _uiState.update { currentState ->
-            currentState.copy(name = "New test name")
-        }
-    }
 
-    fun makeSecondButtonEnable() {
-        _uiState.update { currentState ->
-            currentState.copy(isSecondButtonEnabled = true)
-        }
+    fun addToFavourites() {
+        TODO("Not yet implemented")
     }
 }

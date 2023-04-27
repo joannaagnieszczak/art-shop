@@ -56,32 +56,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import pl.asia.artshop.R
 import pl.asia.artshop.ui.theme.Typography
 
-@Composable
-fun ProductScreen(productViewModel: ProductViewModel = viewModel()) {
-    val productUiState by productViewModel.uiState.collectAsState()
-    Column() {
-        Text(text = productUiState.name,
-             style = Typography.bodyLarge
-        )
-        Text(text = productUiState.price)
-        Text(text = productUiState.description)
-
-        Button(
-            onClick = {productViewModel.makeSecondButtonEnable()}) {
-            (Text(text = "First button"))
-        }
-
-        Button(
-            enabled = productUiState.isSecondButtonEnabled,
-            onClick = {productViewModel.updateProduct()}) {
-            (Text(text = "Update product"))
-        }
-    }
-}
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ImageSlider(productViewModel: ProductViewModel = viewModel()){
+fun ProductScreen(productViewModel: ProductViewModel = viewModel()){
     val productUiState by productViewModel.uiState.collectAsState()
     val imageListSlider = productUiState.imageList
     val pagerState = rememberPagerState(initialPage = 0)
@@ -108,7 +85,11 @@ Column(modifier = Modifier
         }
     }
 }
-    BottomSection(size = imageListSlider.size, index = pagerState.currentPage){}
+    BottomSection(
+        size = imageListSlider.size,
+        index = pagerState.currentPage,
+        onFavouriteClicked = { productViewModel.addToFavourites() }
+    )
     MainInfo()
     HeadlineDetail(headline = productUiState.headlineDetail, description = productUiState.descriptionDetail)
     HeadlineDetail(headline = productUiState.headlineDimensions, description = productUiState.descriptionDimensions)
@@ -185,7 +166,7 @@ fun TopSection(){
 fun BottomSection(
     size: Int,
     index: Int,
-    onNextClicked: ()->Unit
+    onFavouriteClicked: ()->Unit
 ){
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -193,7 +174,7 @@ fun BottomSection(
         contentAlignment = Alignment.Center) {
 
         FloatingActionButton(
-            onClick = onNextClicked,
+            onClick = onFavouriteClicked,
             modifier = Modifier.align(Alignment.CenterEnd),
             shape = RoundedCornerShape(100),
             containerColor = MaterialTheme.colorScheme.surface,
@@ -212,7 +193,7 @@ fun BottomSection(
 @Preview
 @Composable
 fun ImageSliderPreview(){
-    ImageSlider()
+    ProductScreen()
 }
 /*
 @Composable
