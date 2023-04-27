@@ -1,4 +1,4 @@
-package pl.asia.artshop.product
+package pl.asia.artshop.product.donica2
 
 data class ProductViewState(
     val name: String,
@@ -11,5 +11,6 @@ data class ProductViewState(
     val headlineShipping: String,
     val descriptionShipping: String,
     val imageList: List<Int>,
+    val details: List<ProductViewModel.StringPair>,
     val isSecondButtonEnabled: Boolean = false
 )

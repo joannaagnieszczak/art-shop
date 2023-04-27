@@ -20,11 +20,7 @@ private val fontFamilyPlayfair = FontFamily(
 private val fontFamilyRoboto = FontFamily(
     listOf(
         Font(
-            resId = R.font.adamina
-        ),
-        Font(
-            resId = R.font.adamina,
-            weight = FontWeight.Light
+            resId = R.font.catamaran_light
         )
     )
 )
@@ -41,9 +37,7 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = fontFamilyRoboto,
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 2.sp)
+       )
     )
 
     /* Other default text styles to override

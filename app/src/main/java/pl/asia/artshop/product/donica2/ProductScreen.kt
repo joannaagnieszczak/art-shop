@@ -1,7 +1,5 @@
-package pl.asia.artshop.product
-import androidx.compose.animation.core.Spring
+package pl.asia.artshop.product.donica2
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,18 +8,19 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -35,6 +34,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -45,6 +45,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,33 +85,42 @@ fun ImageSlider(productViewModel: ProductViewModel = viewModel()){
     val productUiState by productViewModel.uiState.collectAsState()
     val imageListSlider = productUiState.imageList
     val pagerState = rememberPagerState(initialPage = 0)
-Column(modifier = Modifier.fillMaxWidth()) {
+Column(modifier = Modifier
+    .verticalScroll(rememberScrollState())
+    .fillMaxWidth()
+    ) {
     TopSection()
     HorizontalPager(pageCount = imageListSlider.size,
                     state = pagerState,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(0.8f)) {
-        page -> Card(modifier = Modifier.wrapContentWidth()) {
+                    modifier = Modifier.fillMaxWidth(),
+
+                       ) {
+        page -> Card(modifier = Modifier,
+                     shape = RectangleShape) {
         val newList = imageListSlider[page]
-        Box(modifier = Modifier.wrapContentWidth()){
-            Image(painter = painterResource(id = newList), contentDescription = null)
+        Box(modifier = Modifier.wrapContentSize()
+        ){
+            Image(painter = painterResource(id = newList),
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.FillBounds,
+                contentDescription = null)
 
         }
     }
 }
     BottomSection(size = imageListSlider.size, index = pagerState.currentPage){}
     MainInfo()
-    HeadlineDetail()
-    HeadlineDimensions()
+    HeadlineDetail(headline = productUiState.headlineDetail, description = productUiState.descriptionDetail)
+    HeadlineDetail(headline = productUiState.headlineDimensions, description = productUiState.descriptionDimensions)
+    HeadlineDetail(headline = productUiState.headlineShipping, description = productUiState.descriptionShipping)
+
 }
 }
 
 @Composable
 fun Indicator(isSelected:Boolean){
     val width = animateDpAsState(
-        targetValue = if (isSelected) 25.dp else 10.dp,
-        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)
+        targetValue = if (isSelected) 25.dp else 10.dp
     )
 
     Box(
@@ -159,7 +170,9 @@ fun TopSection(){
         }
 
         IconButton(onClick = { /*TODO*/ },
-            modifier = Modifier.align(Alignment.Center).offset(120.dp)) {
+            modifier = Modifier
+                .align(Alignment.Center)
+                .offset(120.dp)) {
             Icon(Icons.Outlined.Share,
                 contentDescription = null)
         }
@@ -280,14 +293,14 @@ fun MainInfo(modifier: Modifier = Modifier,
 }
 
 @Composable
-fun HeadlineDetail (productViewModel: ProductViewModel = viewModel()) {
-    val productUiState by productViewModel.uiState.collectAsState()
+fun HeadlineDetail (headline: String, description: String) {
     var expanded by remember { mutableStateOf(false) }
     val extraPadding = if (expanded) 15.dp else 0.dp
 
+
     Button(
         onClick = { expanded = !expanded },
-        colors = ButtonDefaults.buttonColors(androidx.compose.ui.graphics.Color.White),
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 50.dp)
@@ -302,22 +315,22 @@ fun HeadlineDetail (productViewModel: ProductViewModel = viewModel()) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = productUiState.headlineDetail,
+                text = headline,
                 style = Typography.titleLarge,
                 fontSize = 18.sp,
-                color = androidx.compose.ui.graphics.Color.Black
+                color = MaterialTheme.colorScheme.tertiary
             )
             if (expanded) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowUp,
                     contentDescription = null,
-                    tint = androidx.compose.ui.graphics.Color.Black
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             } else {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
-                    tint = androidx.compose.ui.graphics.Color.Black
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             }
         }
@@ -328,83 +341,33 @@ fun HeadlineDetail (productViewModel: ProductViewModel = viewModel()) {
             horizontalArrangement = Arrangement.Start,
         ) {if (expanded) {
             Text(
-                text = productUiState.descriptionDetail,
-                color = androidx.compose.ui.graphics.Color.Black
+                text = description,
+                color = MaterialTheme.colorScheme.tertiary
             )
         }
     }
 }}}
 
-@Composable
-fun HeadlineDimensions (productViewModel: ProductViewModel = viewModel()) {
-    val productUiState by productViewModel.uiState.collectAsState()
-    var expanded by remember { mutableStateOf(false) }
-    val extraPadding = if (expanded) 15.dp else 0.dp
 
-    Button(
-        onClick = { expanded = !expanded },
-        colors = ButtonDefaults.buttonColors(androidx.compose.ui.graphics.Color.White),
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 50.dp)
-            .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp),
-        shape = RoundedCornerShape(10.dp)
-    ) {Column() {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = extraPadding),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = productUiState.headlineDimensions,
-                style = Typography.titleLarge,
-                fontSize = 18.sp,
-                color = androidx.compose.ui.graphics.Color.Black
-            )
-            if (expanded) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowUp,
-                    contentDescription = null,
-                    tint = androidx.compose.ui.graphics.Color.Black
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowDown,
-                    contentDescription = null,
-                    tint = androidx.compose.ui.graphics.Color.Black
-                )
+@Composable
+fun SimilarItems(modifier: Modifier = Modifier){
+        Surface(modifier = modifier,
+                shape = MaterialTheme.shapes.small) {
+            Column(modifier = Modifier.width(150.dp)) {
+                Image(painterResource(id = R.drawable.flower_pot4c), contentDescription = null)
+                Text(text = "Name", modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 5.dp))
+                Text(text = "Details", modifier = Modifier.padding(start = 10.dp, top = 5.dp, bottom = 10.dp))
+                
             }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
 
-            horizontalArrangement = Arrangement.Start,
-        ) {if (expanded) {
-            Text(
-                text = productUiState.descriptionDimensions,
-                color = androidx.compose.ui.graphics.Color.Black
-            )
-        }
-        }
-    }}}
-
-
-
-
-@Preview()
-@Composable
-fun HeadlineDetailPreview(){
-    HeadlineDetail()
 }
 
-@Preview()
-@Composable
-fun HeadlineDimensionsPreview(){
-    HeadlineDimensions()
 }
+
+@Preview(showBackground = true, backgroundColor = 0xFFE7DACC)
+@Composable
+fun SimilarItemsPreview(){
+    SimilarItems(modifier = Modifier.padding(8.dp))}
 
 @Preview(showBackground = true, backgroundColor = 0xFFE7DACC)
 @Composable
