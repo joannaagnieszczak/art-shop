@@ -136,7 +136,7 @@ fun TopSection(){
 
         //back button
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { },
             modifier = Modifier.align(Alignment.CenterStart)
         ) {
             Icon(Icons.Outlined.KeyboardArrowLeft, contentDescription = null)

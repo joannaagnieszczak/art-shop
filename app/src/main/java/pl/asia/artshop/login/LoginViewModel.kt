@@ -11,7 +11,7 @@ class LoginViewModel : ViewModel() {
 
     val uiState: StateFlow<LoginViewState> = _uiState.asStateFlow()
 
-    fun onEnterLogin(login: String) {
+    fun onEnterLogin(login: String){
         _uiState.update { currentState ->
             currentState.copy(
                 login = login,
