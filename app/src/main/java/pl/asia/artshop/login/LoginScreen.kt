@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -25,15 +28,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import pl.asia.artshop.navigation.Screen
 import pl.asia.artshop.ui.theme.Typography
 
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = viewModel(), navController: NavController) {
     val loginUiState by loginViewModel.uiState.collectAsState()
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -42,6 +50,8 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
     ) {
         var login by remember { mutableStateOf(loginUiState.login) }
         TextField(
+            textStyle = Typography.titleLarge,
+            singleLine = true,
             value = login,
             onValueChange = {
                 login = it
@@ -59,7 +69,7 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
                     text = "Login",
                     style = Typography.titleLarge,
                     fontSize = 14.sp,
-                    color = Color.Black
+                    color = Color.DarkGray
                 )
             },
             modifier = modifier
@@ -69,7 +79,20 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
 
         )
         var password by remember { mutableStateOf(loginUiState.password) }
+        var passwordVisible by remember { mutableStateOf(false) }
         TextField(
+            textStyle = Typography.titleLarge,
+            singleLine = true,
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val image = if (passwordVisible)
+                    Icons.Filled.Visibility
+                else Icons.Filled.VisibilityOff
+
+                val description = if (passwordVisible) "Hide password" else "Show password"
+
+                IconButton(onClick = {passwordVisible = !passwordVisible}){
+                    Icon(imageVector  = image, description) }},
             value = password,
             onValueChange = {
                 password = it
@@ -86,18 +109,18 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
                     text = "Password",
                     style = Typography.titleLarge,
                     fontSize = 14.sp,
-                    color = Color.Black
+                    color = Color.DarkGray
                 )
             },
             modifier = modifier
                 .fillMaxWidth()
-                .heightIn(min = 56.dp)
+                .heightIn(min = 46.dp)
                 .padding(16.dp)
 
         )
 
         Button(
-            onClick = {},
+            onClick = {navController.navigate(route = Screen.ProductNavigation.route)},
             enabled = loginUiState.isLoginButtonEnabled,
             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
             modifier = Modifier.padding(16.dp)
@@ -108,9 +131,10 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
-fun ProductScreenPreview() {
-    LoginScreen()
+@Preview(showSystemUi = true)
+fun LoginScreenPreview(){
+    LoginScreen(navController = rememberNavController())
 }
+
+
