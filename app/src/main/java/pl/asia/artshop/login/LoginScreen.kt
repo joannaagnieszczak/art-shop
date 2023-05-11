@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +41,7 @@ import pl.asia.artshop.navigation.Screen
 import pl.asia.artshop.ui.theme.Typography
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = viewModel(), navController: NavController) {
     val loginUiState by loginViewModel.uiState.collectAsState()
@@ -63,7 +65,7 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
                     contentDescription = null
                 )
             },
-            colors = TextFieldDefaults.colors(unfocusedContainerColor = MaterialTheme.colorScheme.primary),
+            colors = TextFieldDefaults.textFieldColors(MaterialTheme.colorScheme.primary),
             placeholder = {
                 Text(
                     text = "Login",
@@ -103,7 +105,7 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
                     contentDescription = null
                 )
             },
-            colors = TextFieldDefaults.colors(unfocusedContainerColor = MaterialTheme.colorScheme.primary),
+            colors = TextFieldDefaults.textFieldColors(MaterialTheme.colorScheme.primary),
             placeholder = {
                 Text(
                     text = "Password",
@@ -120,7 +122,7 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
         )
 
         Button(
-            onClick = {navController.navigate(route = Screen.ProductNavigation.route)},
+            onClick = {navController.navigate(route = Screen.HomeScreenNavigation.route)},
             enabled = loginUiState.isLoginButtonEnabled,
             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
             modifier = Modifier.padding(16.dp)
