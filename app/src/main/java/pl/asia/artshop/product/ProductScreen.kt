@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -63,29 +63,23 @@ fun ProductScreen(productViewModel: ProductViewModel = viewModel()){
     val imageListSlider = productUiState.imageList
     val pagerState = rememberPagerState(initialPage = 0)
 Column(modifier = Modifier
-    .verticalScroll(rememberScrollState())
-    .fillMaxWidth()
-    ) {
+    .verticalScroll(rememberScrollState())) {
     TopSection()
-    HorizontalPager(pageCount = imageListSlider.size,
-                    state = pagerState,
-                    modifier = Modifier.fillMaxWidth(),
-
-                       ) {
+    HorizontalPager(modifier = Modifier,
+                    pageCount = imageListSlider.size,
+                    state = pagerState) {
         page -> Card(modifier = Modifier,
                      shape = RectangleShape) {
         val newList = imageListSlider[page]
-        Box(modifier = Modifier.wrapContentSize()
-        ){
-            Image(painter = painterResource(id = newList),
-                modifier = Modifier.fillMaxWidth(),
+        Image(painter = painterResource(id = newList),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.FillBounds,
                 contentDescription = null)
 
-        }
+
     }
 }
-    BottomSection(
+    UnderMainPictureSection(
         size = imageListSlider.size,
         index = pagerState.currentPage,
         onFavouriteClicked = { productViewModel.addToFavourites() }
@@ -163,7 +157,7 @@ fun TopSection(){
 }
 
 @Composable
-fun BottomSection(
+fun UnderMainPictureSection(
     size: Int,
     index: Int,
     onFavouriteClicked: ()->Unit
@@ -195,63 +189,7 @@ fun BottomSection(
 fun ImageSliderPreview(){
     ProductScreen()
 }
-/*
-@Composable
-fun MainPicture (modifier: Modifier = Modifier, productViewModel: ProductViewModel = viewModel())
-{val productUiState by productViewModel.uiState.collectAsState()
-    Box(modifier = modifier.fillMaxWidth(),
-) {
-    Image(
-        painter = painterResource(productUiState.imageList.size),
-        contentDescription = null,
-        modifier = modifier
-            .align(Alignment.TopCenter)
-    )
 
-    IconButton(onClick = { /*TODO*/ },
-        modifier = Modifier.align(Alignment.TopStart)) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = null,
-            modifier = Modifier
-                .scale(1.4F)
-                .padding(20.dp)
-            )
-        }
-    IconButton(onClick = { /*TODO*/ },
-        modifier = Modifier.align(Alignment.BottomStart)) {
-        Icon(
-            imageVector = Icons.Default.Share,
-            contentDescription = null,
-            modifier = Modifier
-                .scale(1.4F)
-                .padding(start = 13.dp, bottom = 60.dp)
-            )
-        }
-    IconButton(onClick = { /*TODO*/ },
-        modifier = Modifier.align(Alignment.BottomStart)) {
-        Icon(
-            imageVector = Icons.Outlined.Favorite,
-            contentDescription = null,
-            modifier = Modifier
-                .scale(1.4F)
-                .padding(20.dp),
-        )
-    }
-    IconButton(onClick = { /*TODO*/ },
-        modifier = Modifier.align(Alignment.TopEnd)) {
-        Icon(
-            painterResource(id = R.drawable.outline_shopping_bag_24),
-            contentDescription = null,
-            modifier = Modifier
-                .scale(1.4F)
-                .padding(20.dp),
-        )
-    }
-    }
-
-}
-*/
 @Composable
 fun MainInfo(modifier: Modifier = Modifier,
              productViewModel: ProductViewModel = viewModel()) {

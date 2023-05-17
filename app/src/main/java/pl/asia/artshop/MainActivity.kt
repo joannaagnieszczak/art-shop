@@ -3,7 +3,8 @@ package pl.asia.artshop
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import pl.asia.artshop.navigation.Navigation
+import androidx.navigation.compose.rememberNavController
+import pl.asia.artshop.navigation.RootNavigationGraph
 import pl.asia.artshop.ui.theme.ArtshopTheme
 
 class MainActivity : ComponentActivity() {
@@ -12,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ArtshopTheme {
-                Navigation()
+                RootNavigationGraph(navController = rememberNavController())
             }
         }
     }
