@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import pl.asia.artshop.navigation.Screen
+import pl.asia.artshop.navigation.Graph
 import pl.asia.artshop.ui.theme.Typography
 
 
@@ -122,7 +122,7 @@ fun LoginScreen(modifier: Modifier = Modifier, loginViewModel: LoginViewModel = 
         )
 
         Button(
-            onClick = {navController.navigate(route = Screen.HomeScreenNavigation.route)},
+            onClick = {navController.navigate(route = Graph.HOME)},
             enabled = loginUiState.isLoginButtonEnabled,
             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
             modifier = Modifier.padding(16.dp)

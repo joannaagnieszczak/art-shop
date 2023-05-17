@@ -9,12 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, homeScreenViewModel: HomeScreenViewModel = viewModel()){
+fun HomeScreen(homeScreenViewModel: HomeScreenViewModel = viewModel()){
     val homeScreenUiState by homeScreenViewModel.uiState.collectAsState()
-    val navController = rememberNavController()
     Box(modifier = Modifier.fillMaxSize(),
     contentAlignment = Alignment.Center){
         Text(text = homeScreenUiState.title)
