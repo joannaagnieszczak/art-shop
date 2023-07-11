@@ -19,7 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 
-@Composable
+/*@Composable
 fun MainScreen(){
     val navController = rememberNavController()
     Scaffold(bottomBar = { BottomBar(navController = navController)}) {
@@ -73,4 +73,4 @@ fun RowScope.AddItem(
         }
         }
     )
-}
+}*/
